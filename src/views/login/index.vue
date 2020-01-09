@@ -6,7 +6,7 @@
     <ValidationObserver ref="myForm">
       <!-- 手机号 -->
       <ValidationProvider name="手机号" rules="required|mobile">
-        <van-field v-model="user.mobile" required clearable label="手机号" placeholder="请输入手机号">
+        <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
           <i slot="left-icon" class="iconfont icon-xingmingyonghumingnicheng"></i>
         </van-field>
       </ValidationProvider>
@@ -14,7 +14,7 @@
 
       <!-- 验证码 -->
       <ValidationProvider name="验证码" rules="required|code">
-        <van-field v-model="user.code" label="验证码" placeholder="请输入验证码" required>
+        <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
           <!-- 插入按钮 -->
           <i slot="left-icon" class="iconfont icon-icon--"></i>
           <!-- 倒计时 -->
@@ -107,10 +107,11 @@ export default {
         forbidClick: true // 是否禁止背景点击
       })
 
-      // 提交请求
+      // 提交请求 登录
       try {
         const res = await login(user)
         console.log(res)
+        this.$store.commit('setUser', res.data.data)
         this.$toast.success('登录成功')
       } catch (error) {
         console.log('登录失败', error)
