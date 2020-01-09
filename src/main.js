@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './Utils/register-vant' // vant组件注册
-
+import './Utils/validation' // 校验表单
 import 'normalize.css' // 引入预处理样式文件
 import 'amfe-flexible' // rem 处理器
 
