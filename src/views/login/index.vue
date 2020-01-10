@@ -109,11 +109,14 @@ export default {
 
       // 提交请求 登录
       try {
+        // 登录成功
         const res = await login(user)
-        console.log(res)
+        // console.log(res)
+        this.$router.push('/') // 登录成功跳转到首页
         this.$store.commit('setUser', res.data.data)
         this.$toast.success('登录成功')
       } catch (error) {
+        // 登录失败
         console.log('登录失败', error)
         this.$toast.fail('登录失败')
       }
