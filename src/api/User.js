@@ -19,3 +19,11 @@ export const sendSmsCode = mobile => {
     url: `/app/v1_0/sms/codes/${mobile}`
   })
 }
+
+// 获取登录用户信息
+export const userInfo = () => {
+  return request({
+    method: 'get',
+    url: '/app/v1_0/user'
+  })
+}
