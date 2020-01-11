@@ -3,15 +3,6 @@
     <!-- 文章列表 -->
     <!-- 下拉 -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <!-- 下拉可以设置图片等自定义内容 -->
-      <!-- <img
-        class="doge"
-        slot="pulling"
-        slot-scope="props"
-        src="https://img.yzcdn.cn/vant/doge.png"
-        :style="{ transform: `scale(${props.distance / 80})` }"
-      />
-      <img class="doge" slot="loading" src="https://img.yzcdn.cn/vant/doge-fire.jpg" />-->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell v-for="item in list" :key="item.id" :title="item.title" />
       </van-list>
@@ -34,7 +25,7 @@ export default {
   data () {
     return {
       timestamp: null, // 发送请求的时候的当前时间戳 第一次为null
-      list: [],
+      list: [], // 文章列表
       loading: false,
       finished: false,
       isLoading: false
@@ -63,13 +54,16 @@ export default {
     // 下拉刷新
     async onRefresh () {
       try {
-        await getArticles({
+        let { data } = await getArticles({
           channel_id: this.channel.id,
           timestamp: Date.now(),
           with_top: 1 // 是否包含置顶 （不重要 默认包含）
         })
+        console.log(data)
+
+        this.list.unshift(...data.data.results)
         setTimeout(() => {
-          this.$toast('已加载最新数据')
+          this.$toast(`已加载${data.data.results.length}条最新数据`)
           this.isLoading = false
         }, 100)
       } catch (error) {
@@ -81,5 +75,5 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less' scoped>
 </style>
