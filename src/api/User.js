@@ -27,3 +27,20 @@ export const userInfo = () => {
     url: '/app/v1_0/user'
   })
 }
+
+// 获取登录用户频道信息
+export const userChannels = () => {
+  return request({
+    method: 'get',
+    url: '/app/v1_0/user/channels'
+  })
+}
+
+// 获取登录文章列表
+export const getArticles = params => {
+  return request({
+    method: 'get',
+    url: '/app/v1_1/articles',
+    params
+  })
+}

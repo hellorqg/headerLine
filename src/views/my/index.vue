@@ -71,7 +71,7 @@ export default {
   props: {},
   data () {
     return {
-      user: [],
+      user: {},
       userStatus: this.$store.state.user // 用户登录状态
     }
   },
@@ -92,6 +92,7 @@ export default {
         this.$toast('取消退出')
       }
     },
+
     //   获取登录用户信息
     async getUserInfo () {
       try {
