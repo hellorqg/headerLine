@@ -1,7 +1,9 @@
 <template>
   <div class="homeContainer">
     <!-- 导航栏 -->
-    <van-nav-bar title="标题" fixed />
+    <van-nav-bar  fixed>
+      <van-button type='default' class="searchButton" slot="right" icon="search" to='/search' >搜索</van-button>
+    </van-nav-bar>
 
     <!-- 频道 -->
     <van-tabs v-model="active">
@@ -19,8 +21,8 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-    <!--弹出层内 子组件 -->
-      <channelPopup :channel='channels'></channelPopup>
+      <!--弹出层内 子组件 -->
+      <channelPopup @closedla="ischannelPopup=false" v-model="active" :channel="channels"></channelPopup>
     </van-popup>
   </div>
 </template>
@@ -29,10 +31,13 @@
 import { userChannels } from '@/api/User'
 import articleList from '../../components/articleList/index'
 import channelPopup from '../../components/channels'
+import { setItem, getItem } from '@/Utils/storage'
+
 export default {
   name: 'home',
   data () {
     return {
+      value: '',
       ischannelPopup: false, // 控制频道组件的开关
       active: 0, // 控制当前显示的标签栏
       channels: [] // 用户频道数据
@@ -43,15 +48,27 @@ export default {
     channelPopup
   },
   methods: {
+    onCancel () {},
+    onSearch () {},
     // 获取频道列表
     async getChannels () {
-      let { data } = await userChannels()
-      console.log(data.data)
-      this.channels = data.data.channels
+      let myChannels = getItem('userChannel') // 查看本地是否有自己的频道
+      if (myChannels.length) {
+        this.channels = myChannels
+      } else {
+        let { data } = await userChannels()
+        console.log(data.data)
+        this.channels = data.data.channels
+      }
     }
   },
   created () {
     this.getChannels() // 获取用户频道数据
+  },
+  watch: {
+    channels () {
+      setItem('userChannel', this.channels)
+    }
   }
 }
 </script>
@@ -73,5 +90,10 @@ export default {
     height: 38px;
     line-height: 38px;
   }
+ .searchButton{
+   width: 180px;
+   height: 40px;
+   border-radius: 20px;
+ }
 }
 </style>
