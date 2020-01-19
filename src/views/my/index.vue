@@ -55,8 +55,8 @@
       <van-cell title="小智同学" is-link />
     </van-cell-group>
 
-    <van-cell-group @click="logout">
-      <van-cell v-if="userStatus" style="text-align: center;" title="退出登录" clickable />
+    <van-cell-group v-if="userStatus" @click="logout">
+      <van-cell  style="text-align: center;" title="退出登录" clickable />
     </van-cell-group>
 
     <!-- /其它 -->
@@ -98,7 +98,7 @@ export default {
       try {
         let res = await userInfo()
         this.user = res.data.data
-        console.log(this.user)
+        // console.log(this.user)
       } catch (error) {
         this.$toast('获取数据失败')
       }
